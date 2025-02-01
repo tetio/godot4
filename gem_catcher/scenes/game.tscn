@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://d34abvhnndsol"]
+
+[ext_resource type="Script" path="res://scripts/game.gd" id="1_qftsr"]
+[ext_resource type="Texture2D" uid="uid://bp6risxirst7l" path="res://assets/GameBg.png" id="1_y8nuf"]
+[ext_resource type="PackedScene" uid="uid://u13mwedtv3ve" path="res://scenes/gem.tscn" id="2_jvmbg"]
+[ext_resource type="PackedScene" uid="uid://b8pm3d4mhy4er" path="res://scenes/paddle.tscn" id="2_k2oda"]
+[ext_resource type="AudioStream" uid="uid://0pfmlg5jkblu" path="res://assets/bgm_action_5.mp3" id="5_8h5cx"]
+[ext_resource type="AudioStream" uid="uid://btwnokh06ktl1" path="res://assets/spell1_0.wav" id="6_3f8ai"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_qftsr")
+gem_scene = ExtResource("2_jvmbg")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(565, 318)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("1_y8nuf")
+
+[node name="Paddle" parent="." instance=ExtResource("2_k2oda")]
+position = Vector2(525, 620)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = 25.0
+offset_top = 25.0
+offset_right = 107.0
+offset_bottom = 75.0
+theme_override_colors/font_color = Color(0.724738, 0.890739, 0.739271, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 36
+text = "0000"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_8h5cx")
+autoplay = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="AudioStreamPlayer"]
+stream = ExtResource("6_3f8ai")
+
+[connection signal="area_entered" from="Paddle" to="." method="_on_paddle_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
